@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="./calendar.css">
+    <script src="https://use.fontawesome.com/9ab0f0d9eb.js"></script>
+</head>
+
+<body>
+    <div class="app">
+        <div class="center">
+            <div class="header">
+                <h2 class="title">График работы врачей на</h2>
+                <h2 class="month month-current">Сентябрь</h2>
+                <h2 class="month month-next">Октябрь</h2>
+                <div class="btn btn-close"></div>
+            </div>
+            <ul class="place">
+                <li>
+                    <a class="place__city city-isActive" href="http://">Химки</a>
+                </li>
+                <li>
+                    <a class="place__city" href="http://">Сходня</a>
+                </li>
+            </ul>
+            <input type="text" class="filter" placeholder="Начните набирать название врача, услуги, заболевания или специализации">
+            <div class="tabs">
+                <h3 class="tab tabs__doctors">Врачи, работающие в текущем месяце</h3>
+                <h3 class="tab tabs__today">Сегодня</h3>
+                <h3 class="tab tabs__spec-list">Общий список специализаций</h3>
+            </div>
+            <div class="calendar" id="js-calendar"></div>
+        </div>
+    </div>
+    <script src="/calendar.js"></script>
+</body>
+
+</html>
