@@ -25,7 +25,7 @@ function createCalendar(id, year, month) {
             tableRow.appendChild(tableCell)
             tableCell.dataset.weekday = getDay(day);
     
-            let weekdayDate = document.createElement('p')
+            let weekdayDate = document.createElement('div')
             weekdayDate.classList.add('weekday__date');
             weekdayDate.textContent = day.getDate();
             tableCell.appendChild(weekdayDate);
@@ -33,6 +33,7 @@ function createCalendar(id, year, month) {
     
             let sidebox_btn = document.createElement('div');
             sidebox_btn.classList.add('sidebox_btn');
+            sidebox_btn.innerHTML = '<span></span><span></span><span></span>'
             tableCell.appendChild(sidebox_btn);
     
             let workingHours = document.createElement('p');
@@ -78,7 +79,7 @@ function createCalendar(id, year, month) {
         let target = event.target;
     
         while (target != table) {
-            if (target.className == 'weekday') {
+            if (target.className == 'sidebox_btn') {
                 renderBox(target);
                 return;
             }
@@ -92,8 +93,8 @@ function createCalendar(id, year, month) {
             sidebox.remove();
         }
         selected = node;
-        (node.dataset.weekday > 2) ? sidebox.classList.add('js-displayLeft'): sidebox.classList.remove('js-displayLeft');
-        selected.appendChild(sidebox);
+        (node.parentNode.dataset.weekday > 2) ? sidebox.classList.add('js-displayLeft'): sidebox.classList.remove('js-displayLeft');
+        selected.parentNode.appendChild(sidebox);
     }
 
 
