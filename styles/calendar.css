@@ -197,12 +197,12 @@ td {
     color: #000000;
 }
 
-.workingday .sidebox_btn{
+.workingday .sidebox_btn {
     border: 2px solid #000000;
     cursor: pointer;
 }
 
-.workingday .sidebox_btn>span{
+.workingday .sidebox_btn>span {
     background: #000000;
 }
 
@@ -246,7 +246,6 @@ td {
     border-left: 25px solid transparent;
     z-index: 1;
 }
-
 
 .sidebox_btn.js-btnLeft:after {
     display: none;
@@ -297,4 +296,49 @@ td {
     margin-left: auto;
     width: 12px;
     height: 12px;
+}
+
+.sidebox__content {
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+    flex-direction: row;
+    padding-left: 34px;
+}
+
+.sidebox__item {
+    display: flex;
+    flex-direction: row;
+    width: 50%;
+    padding-top: 16px;
+    padding-bottom: 40px;
+}
+
+.item__image {
+    align-self: center;
+}
+
+.item__info {
+    display: flex;
+    flex-direction: column;
+    padding-left: 8px;
+}
+
+.info__name {
+    font-style: normal;
+    font-weight: normal;
+    line-height: 16px;
+    font-size: 14px;
+    color: #000000;
+    margin: 0;
+}
+
+.info__workinghours {
+    font-style: italic;
+    font-weight: normal;
+    line-height: normal;
+    font-size: 16px;
+    color: #000000;
+    margin: 0;
+    padding-top: 17px;
 }

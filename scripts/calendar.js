@@ -88,7 +88,6 @@ function createCalendar(id, year, month) {
             tableRow.appendChild(tableCell);
         }
     };
-
 };
 
 function getDay(date) { // получить номер дня недели, от 0(пн) до 6(вс)
@@ -172,10 +171,10 @@ function renderBox(node) {
         itemInfo.classList.add('item__info');
         
         let itemName = document.createElement('p');
-        itemName.classList.add('item__name');
+        itemName.classList.add('info__name');
         
         let itemHours = document.createElement('p');
-        itemHours.classList.add('item__workinghours');
+        itemHours.classList.add('info__workinghours');
 
         itemImage.src = scheduleJSON[i].image;
         itemImage.alt = scheduleJSON[i].name;
