@@ -170,6 +170,7 @@ td {
 
 .sidebox {
     display: flex;
+    flex-direction: column;
     position: absolute;
     top: 0;
     margin-left: 14.9%;

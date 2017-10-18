@@ -1,19 +1,14 @@
 function createCalendar(id, year, month) {
-    // ajax запрос
 
 
+    // ajax запрос для календаря
     let calendarXhr = new XMLHttpRequest;
-    
     calendarXhr.open('GET', '../calendar.json', false);
-    
     calendarXhr.send();
-    
-    let calendar = JSON.parse(calendarXhr.responseText, (key,value) => {
+    let calendar = JSON.parse(calendarXhr.responseText, (key, value) => {
         if (key == 'date') return new Date(value);
         return value;
-    } );
-    
-    console.log(calendar);
+    });
 
     // Переменные для таблицы
 
@@ -59,22 +54,21 @@ function createCalendar(id, year, month) {
         tableCell.appendChild(sidebox_btn);
         (tableCell.dataset.weekday > 2) ? sidebox_btn.classList.add('js-btnLeft'): sidebox_btn.classList.remove('js-btnLeft');
 
-        
+
 
         let workingHours = document.createElement('p');
         workingHours.className = 'weekday__workingHours';
-        for (let i = 0; i < calendar.length; i++){
+        for (let i = 0; i < calendar.length; i++) {
             let jsonDate = calendar[i].date;
             if (jsonDate.getDate() == day.getDate()) {
                 workingHours.textContent = calendar[i].time;
                 tableCell.classList.add('workingday');
                 break;
-            }
-            else {
+            } else {
                 workingHours.textContent = 'Выходной';
             }
         }
-        
+
         tableCell.appendChild(workingHours);
 
         if (getDay(day) % 7 == 6) { // вс, последний день - перевод строки
@@ -111,7 +105,15 @@ createCalendar("table", 2017, 10);
 
 let sidebox = document.createElement('div');
 sidebox.className = 'sidebox';
-sidebox.innerHTML = '<div class="btn-close sidebox__btn_close"></div><div class="sidebox__content"></div>'
+sidebox.innerHTML = '<div class="btn-close sidebox__btn_close"></div>'
+
+let sideboxContent = document.createElement('div');
+sideboxContent.classList.add('sidebox__content');
+
+let sideboxItem = document.createElement('div');
+sideboxItem.classList.add('sidebox__item');
+
+
 
 let selected;
 
@@ -132,8 +134,19 @@ table.addEventListener('click', (event) => {
 
 function renderBox(node) {
 
+    let scheduleXhr = new XMLHttpRequest;
+    scheduleXhr.open('GET', '../schedule.json', false);
+    scheduleXhr.send();
+
+    let scheduleJSON = JSON.parse(scheduleXhr.responseText);
+
+    console.log(scheduleJSON);
+
     if (selected) {
+        sideboxContent.innerHTML = '';
+        sideboxContent.remove()
         sidebox.remove();
+        
         if (document.querySelector('div.js-active')) {
             document.querySelector('div.js-active').classList.remove('js-active');
         }
@@ -146,12 +159,48 @@ function renderBox(node) {
     };
 
     selected.parentNode.appendChild(sidebox);
+
+    for (let i = 0; i < scheduleJSON.length; i++) {
+
+        const sideboxItem = document.createElement('div');
+        sideboxItem.classList.add('sidebox__item');
+
+        let itemImage = document.createElement('img');
+        itemImage.classList.add('item__img');
+        
+        let itemInfo = document.createElement('div');
+        itemInfo.classList.add('item__info');
+        
+        let itemName = document.createElement('p');
+        itemName.classList.add('item__name');
+        
+        let itemHours = document.createElement('p');
+        itemHours.classList.add('item__workinghours');
+
+        itemImage.src = scheduleJSON[i].image;
+        itemImage.alt = scheduleJSON[i].name;
+
+        itemName.textContent = scheduleJSON[i].name;
+        itemHours.textContent = scheduleJSON[i].time;
+
+        itemInfo.appendChild(itemName);
+        itemInfo.appendChild(itemHours);
+
+        sideboxItem.appendChild(itemImage);
+        sideboxItem.appendChild(itemInfo);
+
+        sideboxContent.appendChild(sideboxItem);
+        console.log(i)
+    }
+    
+
+    sidebox.appendChild(sideboxContent);
 }
 
 
-let removeCust = function () {
+let removeCust = function() {
     this.parentNode.remove();
-    document.querySelector('div.js-active').classList.remove('js-active')
+    document.querySelector('div.js-active').classList.remove('js-active');
 }
 
 sidebox.querySelector(".btn-close").addEventListener('click', removeCust);
@@ -167,7 +216,3 @@ function todayRender() {
     sidebox.classList.add('js-displayLeft');
     table.querySelectorAll('.weekday')[5].appendChild(sidebox)
 }
-
-
-
-
