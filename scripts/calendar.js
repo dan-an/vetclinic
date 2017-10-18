@@ -201,8 +201,6 @@ btnDoctors.addEventListener('click', () => {
 
     let scheduleJSON = JSON.parse(scheduleXhr.responseText);
 
-    
-
     for (let i = 0; i < scheduleJSON.length; i++) {
 
         let item = itemGenerate(scheduleJSON[i]);
@@ -214,14 +212,30 @@ btnDoctors.addEventListener('click', () => {
             document.querySelector('.current-doctors').style.display='none';
             document.querySelector('.inner__content').innerHTML = '';
             table.querySelector('tbody').remove();
-            createCalendar("table", 2017, 10, '../calendar.json');
+            createCalendar("table", 2017, 10, '/calendar.json');
+
             let filter = document.querySelector('.filter');
             let currDoctorLabel = document.createElement('div');
             currDoctorLabel.classList.add('current__doctor-label');
-            currDoctorLabel.textContent = event.target.parentNode.querySelector('.info__name').textContent
 
-            // document.
+            let doctorLabelName = document.createElement('div');
+            doctorLabelName.classList.add('doctor_label__name');
+            doctorLabelName.textContent = event.target.parentNode.querySelector('.info__name').textContent;
 
+            let closeBtn = document.createElement('div');
+            closeBtn.classList.add('btn', 'btn-close', 'label__btn_close')
+
+            
+
+            currDoctorLabel.innerHTML += doctorLabelName.outerHTML + closeBtn.outerHTML;
+
+            document.querySelector('.js-replace').replaceChild(currDoctorLabel, filter);
+
+            document.querySelector('.label__btn_close').addEventListener('click', () => {
+                console.log(1)
+                createCalendar("table", 2017, 10, '../calendar.json');
+                document.querySelector('.js-replace').replaceChild(filter, currDoctorLabel);
+            })
         });
 
         doctorContent.appendChild(item);
@@ -358,3 +372,4 @@ window.onload = function() {
 		document.querySelector('.tabs__doctors').click();
 	}
 }
+

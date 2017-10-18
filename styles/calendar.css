@@ -369,7 +369,7 @@ td {
     flex-wrap: wrap;
 }
 
-.inner__content > .sidebox__item {
+.inner__content>.sidebox__item {
     width: 25%;
 }
 
@@ -386,4 +386,36 @@ td {
     padding: 7px 0;
     margin-top: auto;
     cursor: pointer;
+}
+
+.js-replace {
+    display: flex;
+    justify-content: center;
+}
+
+.current__doctor-label {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    background: #F2F2F2;
+    border-radius: 5px;
+    padding: 0 16px;
+}
+
+.doctor_label__name {
+    font-style: normal;
+    font-weight: bold;
+    line-height: 22px;
+    font-size: 20px;
+    letter-spacing: -0.2px;
+    color: #333333;
+    margin-right: 42px;
+    padding-top: 10px;
+    padding-bottom: 18px;
+}
+
+.label__btn_close {
+    width: 18px;
+    height: 18px;
 }
