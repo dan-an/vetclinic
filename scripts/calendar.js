@@ -49,7 +49,7 @@ function createCalendar(id, year, month) {
 
 
         let sidebox_btn = document.createElement('div');
-        sidebox_btn.classList.add('sidebox_btn');
+        sidebox_btn.classList.add('sidebox_btn', 'btn');
         sidebox_btn.innerHTML = '<span></span><span></span><span></span>'
         tableCell.appendChild(sidebox_btn);
         (tableCell.dataset.weekday > 2) ? sidebox_btn.classList.add('js-btnLeft'): sidebox_btn.classList.remove('js-btnLeft');
@@ -104,7 +104,7 @@ createCalendar("table", 2017, 10);
 
 let sidebox = document.createElement('div');
 sidebox.className = 'sidebox';
-sidebox.innerHTML = '<div class="btn-close sidebox__btn_close"></div>'
+sidebox.innerHTML = '<div class="btn btn-close sidebox__btn_close"></div>'
 
 let sideboxContent = document.createElement('div');
 sideboxContent.classList.add('sidebox__content');
@@ -145,7 +145,7 @@ function renderBox(node) {
         sideboxContent.innerHTML = '';
         sideboxContent.remove()
         sidebox.remove();
-        
+
         if (document.querySelector('div.js-active')) {
             document.querySelector('div.js-active').classList.remove('js-active');
         }
@@ -161,38 +161,10 @@ function renderBox(node) {
 
     for (let i = 0; i < scheduleJSON.length; i++) {
 
-        const sideboxItem = document.createElement('div');
-        sideboxItem.classList.add('sidebox__item');
+        let item = itemGenerate(scheduleJSON[i]);
 
-        let itemImage = document.createElement('img');
-        itemImage.classList.add('item__img');
-        
-        let itemInfo = document.createElement('div');
-        itemInfo.classList.add('item__info');
-        
-        let itemName = document.createElement('p');
-        itemName.classList.add('info__name');
-        
-        let itemHours = document.createElement('p');
-        itemHours.classList.add('info__workinghours');
-
-        itemImage.src = scheduleJSON[i].image;
-        itemImage.alt = scheduleJSON[i].name;
-
-        itemName.textContent = scheduleJSON[i].name;
-        itemHours.textContent = scheduleJSON[i].time;
-
-        itemInfo.appendChild(itemName);
-        itemInfo.appendChild(itemHours);
-
-        sideboxItem.appendChild(itemImage);
-        sideboxItem.appendChild(itemInfo);
-
-        sideboxContent.appendChild(sideboxItem);
-        console.log(i)
-    }
-    
-
+        sideboxContent.appendChild(item);
+    };
     sidebox.appendChild(sideboxContent);
 }
 
@@ -211,7 +183,66 @@ todayBtn.addEventListener('click', todayRender);
 function todayRender() {
     if (document.querySelector('div.js-active')) {
         document.querySelector('div.js-active').classList.remove('js-active');
-    }
+    };
+
     sidebox.classList.add('js-displayLeft');
     table.querySelectorAll('.weekday')[5].appendChild(sidebox)
-}
+};
+
+let btnDoctors = document.querySelector('.tabs__doctors');
+
+let doctorContent = document.querySelector('.inner__content');
+
+btnDoctors.addEventListener('click', () => {
+    let scheduleXhr = new XMLHttpRequest;
+    scheduleXhr.open('GET', '../schedule.json', false);
+    scheduleXhr.send();
+
+    let scheduleJSON = JSON.parse(scheduleXhr.responseText);
+
+    for (let i = 0; i < scheduleJSON.length; i++) {
+
+        let item = itemGenerate(scheduleJSON[i]);
+        doctorContent.appendChild(item);
+    };
+
+    document.querySelector('.current-doctors').style.display='flex';
+});
+
+function itemGenerate(item) {
+    const sideboxItem = document.createElement('div');
+    sideboxItem.classList.add('sidebox__item');
+
+    let itemImage = document.createElement('img');
+    itemImage.classList.add('item__img');
+
+    let itemInfo = document.createElement('div');
+    itemInfo.classList.add('item__info');
+
+    let itemName = document.createElement('p');
+    itemName.classList.add('info__name');
+
+    let itemHours = document.createElement('p');
+    itemHours.classList.add('info__workinghours');
+
+    itemImage.src = item.image;
+    itemImage.alt = item.name;
+
+    itemName.textContent = item.name;
+    itemHours.textContent = item.time;
+
+    itemInfo.appendChild(itemName);
+    itemInfo.appendChild(itemHours);
+
+    sideboxItem.appendChild(itemImage);
+    sideboxItem.appendChild(itemInfo);
+
+    return sideboxItem;
+};
+
+let closeBtn = document.querySelector('.btn-close-doctors');
+
+closeBtn.addEventListener('click', () => {
+    document.querySelector('.current-doctors').style.display='none';
+    doctorContent.innerHTML='';
+})
