@@ -1,9 +1,7 @@
-function createCalendar(id, year, month) {
-
-
+function createCalendar(id, year, month, jsonUrl) {
     // ajax запрос для календаря
     let calendarXhr = new XMLHttpRequest;
-    calendarXhr.open('GET', '../calendar.json', false);
+    calendarXhr.open('GET', jsonUrl, false);
     calendarXhr.send();
     let calendar = JSON.parse(calendarXhr.responseText, (key, value) => {
         if (key == 'date') return new Date(value);
@@ -98,7 +96,7 @@ function getDay(date) { // получить номер дня недели, от
 
 
 
-createCalendar("table", 2017, 10);
+createCalendar("table", 2017, 10, '../calendar.json');
 
 // создаем popup с врачами
 
@@ -200,10 +198,33 @@ btnDoctors.addEventListener('click', () => {
 
     let scheduleJSON = JSON.parse(scheduleXhr.responseText);
 
+    
+
     for (let i = 0; i < scheduleJSON.length; i++) {
 
         let item = itemGenerate(scheduleJSON[i]);
+
+        let scheduleBtn = document.createElement('div');
+        scheduleBtn.classList.add('schedule__btn');
+        scheduleBtn.textContent = 'Расписание';
+        scheduleBtn.addEventListener('click', () => {
+            document.querySelector('.current-doctors').style.display='none';
+            document.querySelector('.inner__content').innerHTML = '';
+            table.querySelector('tbody').remove();
+            createCalendar("table", 2017, 10, '../calendar.json');
+            let filter = document.querySelector('.filter');
+            let currDoctorLabel = document.createElement('div');
+            currDoctorLabel.classList.add('current__doctor-label');
+            currDoctorLabel.textContent = event.target.parentNode.querySelector('.info__name').textContent
+
+            // document.
+
+        });
+
         doctorContent.appendChild(item);
+        doctorContent.querySelector('.info__workinghours').remove();
+        
+        item.querySelector('.item__info').appendChild(scheduleBtn);
     };
 
     document.querySelector('.current-doctors').style.display='flex';
@@ -246,3 +267,8 @@ closeBtn.addEventListener('click', () => {
     document.querySelector('.current-doctors').style.display='none';
     doctorContent.innerHTML='';
 })
+
+// document.querySelector('.schedule__btn').addEventListener('click', () => {
+//     document.querySelector('.current-doctors').style.display='none';
+//     createCalendar("table", 2017, 10);
+// })

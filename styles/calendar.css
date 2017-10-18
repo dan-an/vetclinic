@@ -327,6 +327,7 @@ td {
     display: flex;
     flex-direction: column;
     padding-left: 8px;
+    padding-right: 20px;
 }
 
 .info__name {
@@ -370,4 +371,19 @@ td {
 
 .inner__content > .sidebox__item {
     width: 25%;
+}
+
+.schedule__btn {
+    display: flex;
+    justify-content: center;
+    text-transform: uppercase;
+    font-style: normal;
+    font-weight: normal;
+    line-height: normal;
+    font-size: 16px;
+    color: #828282;
+    background: #E0E0E0;
+    padding: 7px 0;
+    margin-top: auto;
+    cursor: pointer;
 }
