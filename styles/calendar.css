@@ -1,4 +1,4 @@
-@import "./styles/normalize.css";
+@import "./normalize.css";
 @import url('https://fonts.googleapis.com/css?family=Noto+Sans:400,400i,700,700i&subset=cyrillic');
 * {
     box-sizing: border-box;
@@ -172,17 +172,16 @@ td {
     display: flex;
     position: absolute;
     top: 0;
-    margin-left: 13.7%;
-    width: 100px;
-    height: 100px;
-    background-color: red;
+    margin-left: 14.9%;
+    width: 42.46%;
+    height: 100%;
     z-index: 1;
     background: #FFFFFF;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.25);
 }
 
 .js-displayLeft {
-    margin-left: -10%;
+    margin-left: -35.1%;
 }
 
 .weekday {
@@ -190,24 +189,21 @@ td {
     line-height: normal;
     font-size: 24px;
     padding-left: 7px;
+    color: #e0e0e0;
 }
 
+.workingday {
+    color: #000000;
+}
 
-/* .weekday__workingHours::after {
-    content: "\f0c9";
-    font-family: FontAwesome;
-    line-height: normal;
-    font-size: 19px;
-    padding: 5px 6px;
-    float: right;
-    font-style: normal;
-    position: absolute;
-    color: #e0e0e0;
-    top: -37px;
-    right: 12px;
-    border-radius: 50%;
-    border: 2px solid #E0E0E0;
-} */
+.workingday .sidebox_btn{
+    border: 2px solid #000000;
+    cursor: pointer;
+}
+
+.workingday .sidebox_btn>span{
+    background: #000000;
+}
 
 .weekday__workingHours {
     position: relative;
@@ -228,6 +224,58 @@ td {
     padding: 5px 3px;
 }
 
+.sidebox_btn:after {
+    display: none;
+    content: '';
+    position: absolute;
+    top: 11px;
+    left: 23px;
+    border-top: 49px solid #ffffff;
+    border-left: 23px solid transparent;
+    z-index: 2;
+}
+
+.sidebox_btn:before {
+    display: none;
+    content: '';
+    position: absolute;
+    top: 14px;
+    left: 21px;
+    border-top: 51px solid rgba(0, 0, 0, 0.03);
+    border-left: 25px solid transparent;
+    z-index: 1;
+}
+
+
+.sidebox_btn.js-btnLeft:after {
+    display: none;
+    content: '';
+    position: absolute;
+    top: 11px;
+    left: -25px;
+    border-top: 49px solid #ffffff;
+    border-right: 23px solid transparent;
+    z-index: 2;
+    border-left: none;
+}
+
+.sidebox_btn.js-btnLeft:before {
+    display: none;
+    content: '';
+    position: absolute;
+    top: 14px;
+    left: -26px;
+    border-top: 51px solid rgba(0, 0, 0, 0.03);
+    border-right: 25px solid transparent;
+    border-left: none;
+    z-index: 1;
+}
+
+.sidebox_btn.js-active:after,
+.sidebox_btn.js-active:before {
+    display: block;
+}
+
 .sidebox_btn span {
     display: block;
     width: 13px;
@@ -236,9 +284,16 @@ td {
     position: relative;
     background: #E0E0E0;
     border-radius: 3px;
-    z-index: 1;
 }
 
 .sidebox_btn span:last-child {
     margin-bottom: 0;
+}
+
+.sidebox__btn_close {
+    margin-top: 11px;
+    margin-right: 14px;
+    margin-left: auto;
+    width: 12px;
+    height: 12px;
 }

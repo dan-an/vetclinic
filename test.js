@@ -8,10 +8,7 @@ function createCalendar(id, year, month) {
     
     calendarXhr.send();
     
-    let calendar = JSON.parse(calendarXhr.responseText, (key,value) => {
-        if (key == 'date') return new Date(value);
-        return value;
-    } );
+    let calendar = JSON.parse(calendarXhr.responseText);
     
     console.log(calendar);
 
@@ -19,8 +16,6 @@ function createCalendar(id, year, month) {
 
     let currMonth = month - 1;
     let day = new Date(year, currMonth);
-
-    console.log(day);
 
     let table = document.getElementById(id);
     let tableBody = document.createElement('tbody')
@@ -63,18 +58,7 @@ function createCalendar(id, year, month) {
 
         let workingHours = document.createElement('p');
         workingHours.className = 'weekday__workingHours';
-        for (let i = 0; i < calendar.length; i++){
-            let jsonDate = calendar[i].date;
-            if (jsonDate.getDate() == day.getDate()) {
-                workingHours.textContent = calendar[i].time;
-                tableCell.classList.add('workingday');
-                break;
-            }
-            else {
-                workingHours.textContent = 'Выходной';
-            }
-        }
-        
+        workingHours.textContent = '09:00-24:00'
         tableCell.appendChild(workingHours);
 
         if (getDay(day) % 7 == 6) { // вс, последний день - перевод строки
@@ -107,21 +91,16 @@ function getDay(date) { // получить номер дня недели, от
 
 createCalendar("table", 2017, 10);
 
-// создаем popup с врачами
-
+let selected;
 let sidebox = document.createElement('div');
 sidebox.className = 'sidebox';
 sidebox.innerHTML = '<div class="btn-close sidebox__btn_close"></div><div class="sidebox__content"></div>'
-
-let selected;
-
-// eventlistener на кнопку вызова popup (рефакторинг)
 
 table.addEventListener('click', (event) => {
     let target = event.target;
 
     while (target != table) {
-        if (target.parentNode.classList.contains('workingday') && target.classList.contains('sidebox_btn')) {
+        if (target.classList.contains('sidebox_btn')) {
             renderBox(target);
             target.classList.add('js-active');
             return;
@@ -141,6 +120,7 @@ function renderBox(node) {
 
 
     selected = node;
+    console.log(node.classList)
     if (node) {
         (node.parentNode.dataset.weekday > 2) ? sidebox.classList.add('js-displayLeft'): sidebox.classList.remove('js-displayLeft');
     };
@@ -167,7 +147,3 @@ function todayRender() {
     sidebox.classList.add('js-displayLeft');
     table.querySelectorAll('.weekday')[5].appendChild(sidebox)
 }
-
-
-
-
