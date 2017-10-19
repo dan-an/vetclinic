@@ -1,0 +1,18 @@
+[
+	{
+		"calendarURL": "/test_JSON/filter_calendar1.json",
+		"title": "Стрижка собак"
+	},
+	{
+		"calendarURL": "/test_JSON/filter_calendar2.json",
+		"title": "Стрижка кошек"
+	},
+	{
+		"calendarURL": "/test_JSON/filter_calendar3.json",
+		"title": "Стрижка когтей"
+	},
+	{
+		"calendarURL": "/test_JSON/filter_calendar4.json",
+		"title": "Стрижка людей"
+	}
+]
