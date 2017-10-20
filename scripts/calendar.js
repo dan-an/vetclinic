@@ -360,16 +360,39 @@ window.onload = function() {
     if (hash.anchor) {
         window.location.hash = hash.anchor; // сохраняем родной функционал якорей
     } else if (hash.tab == 'doctors') {
+        console.log(1)
         document.querySelector('.tabs__doctors').click();
         if (hash.doctor) {
             let hasedDoctor = document.querySelector('[data-doctor-name="' + hash.doctor + '"]')
             hasedDoctor.querySelector('.schedule__btn').click();
         }
+    } else if (hash.filter) {
+
+        console.log(1)
+        let request = new XMLHttpRequest();
+        request.open("GET", '/filter.json', false);
+        request.send();
+
+        let response = JSON.parse(request.responseText);
+
+        console.log(response);
+
+        response.forEach(function(title) {
+            if (hash.filter == title.title) {
+                table.querySelector('tbody').remove();
+                createCalendar("table", 2017, 10, title.calendarURL.toString());
+            }
+        })
+        if (hash.date) {
+            console.log(1)
+            let hasedDate = '[data-datenum="' + hash.date + '"]'
+            document.querySelector(hasedDate).click();
+        }
     } else if (hash.date) {
+        console.log(1)
         let hasedDate = '[data-datenum="' + hash.date + '"]'
         document.querySelector(hasedDate).click();
     }
-
 }
 
 document.querySelector('.filter').addEventListener('focus', () => {
@@ -387,7 +410,7 @@ document.addEventListener('click', () => {
     }
 })
 
-// livesearch
+let filterAnswer;
 
 function showResult() {
 
@@ -413,7 +436,7 @@ function showResult() {
     request.open("GET", '/filter.json', false);
     request.send();
 
-    let filterAnswer = JSON.parse(request.responseText);
+    filterAnswer = JSON.parse(request.responseText);
 
     let searchQuery = this.value.toLowerCase();
 
@@ -427,17 +450,59 @@ function showResult() {
     let titles = [];
 
     for (let i = 0; i < hints.length; i++) {
-        titles.push(hints[i].title)
+        titles.push(hints[i])
     };
 
 
-    titles.forEach(function(title){
+    titles.forEach(function(title) {
         let listItem = document.createElement('li');
         listItem.classList.add('hints_list__item');
-        listItem.textContent = title;
+        listItem.textContent = title.title;
+        listItem.dataset.title = title.title;
+        listItem.addEventListener('click', filterSchedule)
         fragment.appendChild(listItem);
     })
 
     document.querySelector('.filter__result_dropdown').style.display = 'flex';
     document.getElementById("livesearch").appendChild(fragment);
+}
+
+function filterSchedule() {
+
+    Hash.add('filter', this.textContent)
+        // Hash.remove('tab')
+
+    let url;
+
+    for (let i = 0; i < filterAnswer.length; i++) {
+        if (this.textContent == filterAnswer[i].title) {
+            url = filterAnswer[i].calendarURL.toString();
+            break
+        }
+    }
+
+    table.querySelector('tbody').remove();
+    createCalendar("table", 2017, 10, url);
+
+    let filter = document.querySelector('.filter');
+    let label = document.createElement('div');
+    label.classList.add('current__doctor-label');
+
+    let labelName = document.createElement('div');
+    labelName.classList.add('doctor_label__name');
+    labelName.textContent = this.textContent;
+
+    let closeBtn = document.createElement('div');
+    closeBtn.classList.add('btn', 'btn-close', 'label__btn_close')
+
+    label.innerHTML += labelName.outerHTML + closeBtn.outerHTML;
+
+    document.querySelector('.js-replace').replaceChild(label, filter);
+
+    document.querySelector('.label__btn_close').addEventListener('click', () => {
+        table.querySelector('tbody').remove();
+        createCalendar("table", 2017, 10, '/calendar.json');
+        document.querySelector('.js-replace').replaceChild(filter, label);
+        Hash.clear();
+    })
 }
