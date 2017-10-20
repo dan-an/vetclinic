@@ -372,13 +372,29 @@ window.onload = function() {
 
 }
 
+document.querySelector('.filter').addEventListener('focus', () => {
+    event.target.placeholder = '';
+})
+document.querySelector('.filter').addEventListener('blur', () => {
+    event.target.value = '';
+    event.target.placeholder = 'Начните набирать название врача, услуги, заболевания или специализации'
+})
 document.querySelector('.filter').addEventListener('keyup', showResult)
+
+document.addEventListener('click', () => {
+    if (event.target != document.querySelector('.filter__result_dropdown')) {
+        document.querySelector('.filter__result_dropdown').style.display = 'none';
+    }
+})
 
 // livesearch
 
 function showResult() {
 
+    document.getElementById("livesearch").innerHTML = "";
+
     if (this.value.length == 0) {
+        document.querySelector('.filter__result_dropdown').style.display = 'none';
         document.getElementById("livesearch").innerHTML = "";
         document.getElementById("livesearch").style.border = "0px";
         return;
@@ -406,8 +422,22 @@ function showResult() {
         return searchValue.indexOf(searchQuery) !== -1;
     })
 
+    let fragment = document.createDocumentFragment();
+
+    let titles = [];
+
+    for (let i = 0; i < hints.length; i++) {
+        titles.push(hints[i].title)
+    };
 
 
-    document.getElementById("livesearch").textContent = hints;
-    document.getElementById("livesearch").style.border = "1px solid #A5ACB2";
+    titles.forEach(function(title){
+        let listItem = document.createElement('li');
+        listItem.classList.add('hints_list__item');
+        listItem.textContent = title;
+        fragment.appendChild(listItem);
+    })
+
+    document.querySelector('.filter__result_dropdown').style.display = 'flex';
+    document.getElementById("livesearch").appendChild(fragment);
 }

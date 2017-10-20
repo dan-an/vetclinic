@@ -389,6 +389,7 @@ td {
 }
 
 .js-replace {
+    position: relative;
     display: flex;
     justify-content: center;
 }
@@ -420,6 +421,36 @@ td {
     height: 18px;
 }
 
-.result-dropdown {
-    
+.filter__result_dropdown {
+    position: absolute;
+    top: 39px;
+    display: none;
+    width: 100%;
+    background: #FFFFFF;
+    border: 1px solid #BDBDBD;
+    box-sizing: border-box;
+    z-index: 999;
+}
+
+.result_dropdown__hints_list {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    line-height: 24px;
+    font-size: 20px;
+    text-align: justify;
+    letter-spacing: 0.375px;
+    color: #000000;
+    width: 100%;
+}
+
+.hints_list__item {
+    cursor: pointer;
+    padding: 28px 0;
+    padding-left: 40px;
+    width: 100%;
+}
+
+.hints_list__item:hover {
+    background: #F2F2F2;
 }
