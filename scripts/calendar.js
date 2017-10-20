@@ -383,6 +383,27 @@ window.onload = function() {
                 createCalendar("table", 2017, 10, title.calendarURL.toString());
             }
         })
+        let filter = document.querySelector('.filter');
+        let label = document.createElement('div');
+        label.classList.add('current__doctor-label');
+
+        let labelName = document.createElement('div');
+        labelName.classList.add('doctor_label__name');
+        labelName.textContent = hash.filter;
+
+        let closeBtn = document.createElement('div');
+        closeBtn.classList.add('btn', 'btn-close', 'label__btn_close')
+
+        label.innerHTML += labelName.outerHTML + closeBtn.outerHTML;
+
+        document.querySelector('.js-replace').replaceChild(label, filter);
+
+        document.querySelector('.label__btn_close').addEventListener('click', () => {
+            table.querySelector('tbody').remove();
+            createCalendar("table", 2017, 10, '/calendar.json');
+            document.querySelector('.js-replace').replaceChild(filter, label);
+            Hash.clear();
+        })
         if (hash.date) {
             console.log(1)
             let hasedDate = '[data-datenum="' + hash.date + '"]'
