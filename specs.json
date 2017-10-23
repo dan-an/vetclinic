@@ -1,0 +1,54 @@
+[
+	{
+		"calendarURL": "/test_JSON/specs/specs_calendar1.json",
+		"title": "Анестезия"
+	},
+	{
+		"calendarURL": "/test_JSON/specs/specs_calendar3.json",
+		"title": "Ингаляционная анестезия"
+	},
+	{
+		"calendarURL": "/test_JSON/specs/specs_calendar2.json",
+		"title": "Вакцинация"
+	},
+	{
+		"calendarURL": "/test_JSON/specs/specs_calendar4.json",
+		"title": "Интенсивная терапия"
+	},
+	{
+		"calendarURL": "/test_JSON/specs/specs_calendar1.json",
+		"title": "Кастрация"
+	},
+	{
+		"calendarURL": "/test_JSON/specs/specs_calendar2.json",
+		"title": "Консультация"
+	},
+	{
+		"calendarURL": "/test_JSON/specs/specs_calendar3.json",
+		"title": "Консультация без животного"
+	},
+	{
+		"calendarURL": "/test_JSON/specs/specs_calendar4.json",
+		"title": "Офтальмология"
+	},
+	{
+		"calendarURL": "/test_JSON/specs/specs_calendar1.json",
+		"title": "Стоматология"
+	},
+	{
+		"calendarURL": "/test_JSON/specs/specs_calendar2.json",
+		"title": "Стерилизация"
+	},
+	{
+		"calendarURL": "/test_JSON/specs/specs_calendar3.json",
+		"title": "Стоматология грызунов"
+	},
+	{
+		"calendarURL": "/test_JSON/specs/specs_calendar4.json",
+		"title": "Ультразвуковые исследования"
+	},
+	{
+		"calendarURL": "/test_JSON/specs/specs_calendar1.json",
+		"title": "Терапевтические манипуляции"
+	}
+]

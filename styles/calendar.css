@@ -29,6 +29,7 @@ body {
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+    border-bottom: 5px solid #000000;
 }
 
 .title {
@@ -357,7 +358,7 @@ td {
     width: 100%;
 }
 
-.current-doctors__overlay {
+.tab_overlay {
     width: 100%;
     height: 100%;
     background-color: #ffffff;
@@ -453,4 +454,32 @@ td {
 
 .hints_list__item:hover {
     background: #F2F2F2;
+}
+
+.specialization {
+    display: none;
+    height: 100%;
+    position: absolute;
+    z-index: 1;
+    width: 100%;
+}
+
+.specs {
+    list-style: none;
+    margin: 12px 0;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    max-height: 181px;
+    padding-left: 21px;
+}
+
+.specialization_list__item {
+    cursor: pointer;
+    padding: 12px 0;
+    font-style: normal;
+    font-weight: normal;
+    line-height: normal;
+    font-size: 12px;
+    margin-right: 67px;
 }

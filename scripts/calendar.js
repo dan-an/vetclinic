@@ -283,6 +283,12 @@ document.querySelector('.btn-close-doctors').addEventListener('click', () => {
     doctorContent.innerHTML = '';
 })
 
+document.querySelector('.btn-close-specs').addEventListener('click', () => {
+    Hash.remove('tab');
+    document.querySelector('.specialization').style.display = 'none';
+    // doctorContent.innerHTML = '';
+})
+
 Hash = {
     // Получаем данные из адреса
     get: function() {
@@ -409,12 +415,84 @@ window.onload = function() {
             let hasedDate = '[data-datenum="' + hash.date + '"]'
             document.querySelector(hasedDate).click();
         }
+    } else if (hash.tab == "specs") {
+        console.log(1);
+        let request = new XMLHttpRequest();
+        request.open("GET", '/specs.json', false);
+        request.send();
+
+        let response = JSON.parse(request.responseText);
+
+        if (hash.specialization) {
+            console.log(2);
+            response.forEach(function(title) {
+                if (hash.specialization == title.title) {
+                    table.querySelector('tbody').remove();
+                    createCalendar("table", 2017, 10, title.calendarURL.toString());
+                }
+            })
+            console.log(response);
+            let filter = document.querySelector('.filter');
+            let label = document.createElement('div');
+            label.classList.add('current__doctor-label');
+
+            let labelName = document.createElement('div');
+            labelName.classList.add('doctor_label__name');
+            labelName.textContent = hash.specialization;
+
+            let closeBtn = document.createElement('div');
+            closeBtn.classList.add('btn', 'btn-close', 'label__btn_close')
+
+            label.innerHTML += labelName.outerHTML + closeBtn.outerHTML;
+
+            document.querySelector('.js-replace').replaceChild(label, filter);
+
+            document.querySelector('.specialization').style.display = 'none';
+
+            document.querySelector('.label__btn_close').addEventListener('click', () => {
+                table.querySelector('tbody').remove();
+                createCalendar("table", 2017, 10, '/calendar.json');
+                document.querySelector('.js-replace').replaceChild(filter, label);
+                Hash.clear();
+            })
+            if (hash.date) {
+                console.log(1)
+                let hasedDate = '[data-datenum="' + hash.date + '"]'
+                document.querySelector(hasedDate).click();
+            }
+        } else {
+            specsJSON = response.sort(function(a, b) {
+                if (a.title > b.title) {
+                    return 1;
+                }
+                if (a.title < b.title) {
+                    return -1;
+                }
+                // a должно быть равным b
+                return 0;
+            });
+
+            let fragment = document.createDocumentFragment();
+
+            specsJSON.forEach(function(specialization) {
+                let listItem = document.createElement('li');
+                listItem.classList.add('specialization_list__item');
+                listItem.textContent = specialization.title;
+                listItem.dataset.title = specialization.title;
+                listItem.addEventListener('click', specsSchedule)
+                fragment.appendChild(listItem);
+            })
+
+            console.log(fragment)
+            document.querySelector('.specialization').style.display = 'flex';
+            document.getElementById('specializations').appendChild(fragment);
+        }
     } else if (hash.date) {
         console.log(1)
         let hasedDate = '[data-datenum="' + hash.date + '"]'
         document.querySelector(hasedDate).click();
     }
-}
+};
 
 document.querySelector('.filter').addEventListener('focus', () => {
     event.target.placeholder = '';
@@ -423,6 +501,8 @@ document.querySelector('.filter').addEventListener('blur', () => {
     event.target.value = '';
     event.target.placeholder = 'Начните набирать название врача, услуги, заболевания или специализации'
 })
+
+
 document.querySelector('.filter').addEventListener('keyup', showResult)
 
 document.addEventListener('click', () => {
@@ -488,6 +568,43 @@ function showResult() {
     document.getElementById("livesearch").appendChild(fragment);
 }
 
+let specsJSON;
+
+document.querySelector('.tabs__spec-list').addEventListener('click', () => {
+
+    Hash.add('tab', 'specs');
+
+    let specsXhr = new XMLHttpRequest;
+    specsXhr.open('GET', '/specs.json', false);
+    specsXhr.send();
+
+    specsJSON = JSON.parse(specsXhr.responseText).sort(function(a, b) {
+        if (a.title > b.title) {
+            return 1;
+        }
+        if (a.title < b.title) {
+            return -1;
+        }
+        // a должно быть равным b
+        return 0;
+    });
+
+    let fragment = document.createDocumentFragment();
+
+    specsJSON.forEach(function(specialization) {
+        let listItem = document.createElement('li');
+        listItem.classList.add('specialization_list__item');
+        listItem.textContent = specialization.title;
+        listItem.dataset.title = specialization.title;
+        listItem.addEventListener('click', specsSchedule)
+        fragment.appendChild(listItem);
+    })
+
+    console.log(fragment)
+    document.querySelector('.specialization').style.display = 'flex';
+    document.getElementById('specializations').appendChild(fragment);
+});
+
 function filterSchedule() {
 
     Hash.add('filter', this.textContent)
@@ -501,6 +618,49 @@ function filterSchedule() {
             break
         }
     }
+
+    table.querySelector('tbody').remove();
+    createCalendar("table", 2017, 10, url);
+
+    let filter = document.querySelector('.filter');
+    let label = document.createElement('div');
+    label.classList.add('current__doctor-label');
+
+    let labelName = document.createElement('div');
+    labelName.classList.add('doctor_label__name');
+    labelName.textContent = this.textContent;
+
+    let closeBtn = document.createElement('div');
+    closeBtn.classList.add('btn', 'btn-close', 'label__btn_close')
+
+    label.innerHTML += labelName.outerHTML + closeBtn.outerHTML;
+
+    document.querySelector('.js-replace').replaceChild(label, filter);
+
+    document.querySelector('.label__btn_close').addEventListener('click', () => {
+        table.querySelector('tbody').remove();
+        createCalendar("table", 2017, 10, '/calendar.json');
+        document.querySelector('.js-replace').replaceChild(filter, label);
+        Hash.clear();
+    })
+}
+
+function specsSchedule() {
+
+    Hash.add('specialization', this.textContent)
+        // Hash.remove('tab')
+
+    let url;
+
+    for (let i = 0; i < specsJSON.length; i++) {
+        if (this.textContent == specsJSON[i].title) {
+            url = specsJSON[i].calendarURL.toString();
+            break
+        }
+    }
+
+    specializations.innerHTML = '';
+    document.querySelector('.specialization').style.display = 'none';
 
     table.querySelector('tbody').remove();
     createCalendar("table", 2017, 10, url);
