@@ -127,6 +127,11 @@ table.addEventListener('click', (event) => {
 
 function renderBox(node) {
 
+    let overlay = document.createElement('div');
+    overlay.classList.add('sidebox_overlay');
+    document.querySelector('.app').appendChild(overlay);
+    overlay.addEventListener('click', removeSidebox);
+
     let scheduleXhr = new XMLHttpRequest;
     scheduleXhr.open('GET', '/schedule.json', false);
     scheduleXhr.send();
@@ -157,23 +162,27 @@ function renderBox(node) {
 
         sideboxContent.appendChild(item);
     };
+
     sidebox.appendChild(sideboxContent);
 }
 
 function removeSidebox() {
     document.querySelector('.sidebox').remove();
+    document.querySelector('.sidebox_overlay').remove();
     document.querySelector('div.js-active').classList.remove('js-active');
+
     Hash.remove('date');
 }
 
 function todayRender() {
-
     if (document.querySelector('div.js-active')) {
         document.querySelector('div.js-active').classList.remove('js-active');
     };
 
+    renderBox(table.querySelectorAll('.weekday')[12].querySelector('.sidebox_btn'))
+
     sidebox.classList.add('js-displayLeft');
-    table.querySelectorAll('.weekday')[5].appendChild(sidebox)
+    // table.querySelectorAll('.weekday')[5].appendChild(sidebox)
 };
 
 let doctorContent = document.querySelector('.inner__content');

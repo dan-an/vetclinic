@@ -483,3 +483,9 @@ td {
     font-size: 12px;
     margin-right: 67px;
 }
+
+.sidebox_overlay {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+}
